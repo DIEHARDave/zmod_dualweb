@@ -1,5 +1,7 @@
 # zmod_dualweb
 
+> **Parts:** the printers, boards, readers and other gear that go with this project are listed at [projects.die-hard.net/gear](https://projects.die-hard.net/gear) (Amazon affiliate links).
+
 Run **Fluidd and Mainsail at the same time** on a **Zmod** printer (Flashforge
 AD5X, Creator 5, AD5M). Zmod normally serves one web interface on port 80 and
 its `WEB` macro switches between them. With this plugin:
