@@ -30,6 +30,10 @@ PID_FILE=$DIR/nginx.pid
 # matches the target of /proc/PID/exe, so a symlink is not enough).
 BIN=$DIR/zdualweb
 LOG=/opt/config/mod_data/log/zmod_dualweb.log
+# Other plugins' locations for the port 81 server (diehard-pushraker's
+# settings page): nginx snippets, included inside the server block. Run
+# "dualweb.sh restart" after changing one.
+EXTRA=/opt/config/mod_data/dualweb.d
 
 CLIENT=fluidd
 [ -f /opt/config/mod_data/web.conf ] && . /opt/config/mod_data/web.conf
@@ -66,7 +70,7 @@ start() {
     fi
 
     stop
-    mkdir -p "$DIR/client-body" "$DIR/proxy"
+    mkdir -p "$DIR/client-body" "$DIR/proxy" "$EXTRA"
     if [ -L "$BIN" ] || ! cmp -s "$ZNGINX/nginx" "$BIN"; then
         rm -f "$BIN"
         cp "$ZNGINX/nginx" "$BIN" && chmod 755 "$BIN" || exit 1
@@ -89,7 +93,8 @@ start() {
         -e "s|^error_log .*|error_log $DIR/error.log crit;|" \
         -e "s|client_body_temp_path .*|client_body_temp_path $DIR/client-body;|" \
         -e "s|proxy_temp_path .*|proxy_temp_path $DIR/proxy;|" \
-        -e "s|listen 80;|listen $PORT;|" \
+        -e "s|listen 80;|listen $PORT;\\
+        include $EXTRA/*.conf;|" \
         -e "s|root /root/[a-z]*/;|root /root/$OTHER/;|" \
         > "$CONF"
 

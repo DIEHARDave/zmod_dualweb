@@ -34,6 +34,10 @@ files are not changed.
 - `WEB` runs Zmod's own switch for port 80, then restarts port 81 with the
   other interface.
 - Log: `mod_data/log/zmod_dualweb.log`.
+- Other plugins can add pages to port 81: nginx `location` snippets in
+  `mod_data/dualweb.d/*.conf` are included in its server block (then
+  `dualweb.sh restart`). [diehard-pushraker](https://github.com/DIEHARDave/diehard-pushraker)
+  serves its settings page this way.
 
 ## Install
 
